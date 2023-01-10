@@ -6,6 +6,7 @@ import { IBlogService } from "@Service/interfaces";
 import { BlogRepository } from "@Database/pg/blog.repository";
 import { IBlogRepository } from "@Database/interfaces/blog.repository.interface";
 import { BlogController } from "@Controller/blog.controller";
+import { initPG } from "@Database/pg/pg";
 
 export interface IBootstrapReturn {
     appContainer: Container;
@@ -27,6 +28,8 @@ function bootstrap(): IBootstrapReturn {
     const app = appContainer.get<App>(DI_TYPES.App);
 
     app.init();
+
+    initPG();
 
     return {appContainer, app};
 }
