@@ -1,0 +1,1 @@
+export { IBlogService } from './blog.interface'
