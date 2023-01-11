@@ -1,14 +1,16 @@
 import { Length, IsString, IsIn, IsNumber } from "class-validator";
 
-export class BlogCreateDTO {
+export class PostCreateDTO {
+    @IsNumber()
+    blogId: number;
+
     @IsString()
     @Length(4, 50)
     title: string;
 
     @IsString()
     @Length(0, 1000)
-    description: string;
+    text: string;
 
-    @IsNumber()
-    authorId: number;
+
 }

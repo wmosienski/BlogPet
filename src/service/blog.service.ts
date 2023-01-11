@@ -6,7 +6,7 @@ import { BlogEntity } from '@Entity/blog.entity';
 import { IBlogRepository } from '@Database/interfaces/blog.repository.interface';
 import { DI_TYPES } from 'DI_TYPES';
 import { BlogDBO } from '@DBO/blog.dbo';
-import { mapBlogDBOToBlogEntity, mapBlogEntityToBlogDBO } from '@Mappers/user/blog.mapper';
+import { mapBlogCreateDTOToBlogEntity, mapBlogDBOToBlogEntity, mapBlogEntityToBlogDBO } from '@Mappers/user/blog.mapper';
 
 @injectable()
 export class BlogService implements IBlogService {
@@ -20,7 +20,7 @@ export class BlogService implements IBlogService {
     }
 
     public async create(blogCreateDTO: BlogCreateDTO): Promise<void> {
-        const blogEntity: BlogEntity = mapBlogDBOToBlogEntity(blogCreateDTO);
+        const blogEntity: BlogEntity = mapBlogCreateDTOToBlogEntity(blogCreateDTO);
 
         const blogDBO: BlogDBO = mapBlogEntityToBlogDBO(blogEntity);
 

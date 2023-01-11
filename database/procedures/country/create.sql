@@ -1,0 +1,11 @@
+CREATE OR REPLACE PROCEDURE CREATE_COUNTRY(
+    name CHAR(50),
+    code CHAR(50)
+)
+LANGUAGE plpgsql    
+AS $$
+BEGIN
+    INSERT INTO COUNTRY(NAME, CODE)
+    VALUES(name, code);
+    COMMIT;
+END;$$;

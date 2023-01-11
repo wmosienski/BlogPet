@@ -2,14 +2,17 @@ import { pgConfig } from "@Utils/config/pg.config";
 
 const pgp = require('pg-promise')();
 
-export const pg = pgp(pgConfig);
+const db = pgp(pgConfig);
+
+let pgConnection: any;
 
 export async function initPG(): Promise<void> {
     try {
-        const connection = await pg.connect();
+        pgConnection = await db.connect();
         console.log("pg connected");
-        return connection;
     } catch (error) {
         console.log("pg not connected\n" + error);
     }
 }
+
+export const pg = () => pgConnection;

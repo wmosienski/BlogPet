@@ -5,6 +5,9 @@ import { Server } from 'http';
 import { inject, injectable } from "inversify";
 import * as bodyParser from 'body-parser';
 import 'dotenv';
+import { PostController } from '@Controller/post.controller';
+import { AuthorController } from '@Controller/author.controller';
+import { CountryController } from '@Controller/country.controller';
 
 const DEFAULT_PORT = 5000;
 
@@ -13,14 +16,23 @@ export class App {
     private readonly _app: Express;
     private readonly _port: number;
     private readonly _blogController: BlogController;
+    private readonly _postController: PostController;
+    private readonly _authorController: AuthorController;
+    private readonly _countryController: CountryController;
     private _server: Server;
 
     constructor(
         @inject(DI_TYPES.BlogController) blogController: BlogController,
+        @inject(DI_TYPES.PostController) postController: PostController,
+        @inject(DI_TYPES.AuthorController) authorController: AuthorController,
+        @inject(DI_TYPES.CountryController) countryController: CountryController,
     ) {
         this._app = express();
         this._port = Number(process.env.PORT) || DEFAULT_PORT;
         this._blogController = blogController;
+        this._postController = postController;
+        this._authorController = authorController;
+        this._countryController = countryController;
     }
 
     public useMiddleware(): void {
@@ -29,7 +41,10 @@ export class App {
     }
 
     public useRoutes(): void {
-        this._app.use('/blog', this._blogController.router)
+        this._app.use('/blog', this._blogController.router);
+        this._app.use('/post', this._postController.router);
+        this._app.use('/author', this._authorController.router);
+        this._app.use('/country', this._countryController.router);
     }
 
     public async init(): Promise<void> {
