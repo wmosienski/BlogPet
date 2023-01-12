@@ -1,14 +1,18 @@
 export default {
     author: {
-        create: 'CREATE_AUTHOR',
+        update: 'UPDATE_AUTHOR',
+        delete: 'DELETE_AUTHOR',
     },
     blog: {
-        create: 'CREATE_BLOG',
+        update: 'UPDATE_BLOG',
+        delete: 'DELETE_BLOG',
     },
     post: {
-        create: 'CREATE_POST',
+        update: 'UPDATE_POST',
+        delete: 'DELETE_POST',
     },
     country: {
-        create: 'CREATE_COUNTRY',
+        update: 'UPDATE_COUNTRY',
+        delete: 'DELETE_COUNTRY',
     },
 };

@@ -15,13 +15,25 @@ export const setupPG = async () => {
         await pg().none(sql('tables/post.table.sql'));
         await pg().none(sql('tables/post-post-ref.table.sql'));
 
-        await pg().none(sql('procedures/country/create.sql'),[]);
-        await pg().none(sql('procedures/author/create.sql'));
-        await pg().none(sql('procedures/blog/create.sql'));
-        await pg().none(sql('procedures/post/create.sql'));
+        await pg().none(sql('functions/country/create.sql'),[]);
+        await pg().none(sql('functions/author/create.sql'));
+        await pg().none(sql('functions/blog/create.sql'));
+        await pg().none(sql('functions/post/create.sql'));
 
+        await pg().none(sql('functions/country/read.sql'),[]);
+        await pg().none(sql('functions/author/read.sql'));
+        await pg().none(sql('functions/blog/read.sql'));
+        await pg().none(sql('functions/post/read.sql'));
 
+        await pg().none(sql('procedures/country/update.sql'),[]);
+        await pg().none(sql('procedures/author/update.sql'));
+        await pg().none(sql('procedures/blog/update.sql'));
+        await pg().none(sql('procedures/post/update.sql'));
 
+        await pg().none(sql('procedures/country/delete.sql'),[]);
+        await pg().none(sql('procedures/author/delete.sql'));
+        await pg().none(sql('procedures/blog/delete.sql'));
+        await pg().none(sql('procedures/post/delete.sql'));
 
     } catch(error) {
         console.log(error);

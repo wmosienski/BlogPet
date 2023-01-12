@@ -1,13 +1,13 @@
-import { BlogController, UserController } from '@Controller/blog.controller';
 import { DI_TYPES } from 'DI_TYPES';
 import express, { Express } from 'express';
 import { Server } from 'http';
 import { inject, injectable } from "inversify";
 import * as bodyParser from 'body-parser';
 import 'dotenv';
-import { PostController } from '@Controller/post.controller';
 import { AuthorController } from '@Controller/author.controller';
+import { BlogController } from '@Controller/blog.controller';
 import { CountryController } from '@Controller/country.controller';
+import { PostController } from '@Controller/post.controller';
 
 const DEFAULT_PORT = 5000;
 
