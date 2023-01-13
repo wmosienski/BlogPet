@@ -1,0 +1,10 @@
+CREATE OR REPLACE FUNCTION READ_COUNTRY(
+    country_id INT
+) RETURNS SETOF COUNTRY
+LANGUAGE plpgsql    
+AS $$
+BEGIN
+    RETURN QUERY
+        SELECT * FROM COUNTRY
+        WHERE ID = country_id;
+END;$$;

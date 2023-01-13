@@ -1,0 +1,9 @@
+CREATE OR REPLACE PROCEDURE DELETE_BLOG(
+    _id INT
+)
+LANGUAGE plpgsql    
+AS $$
+BEGIN
+    DELETE FROM BLOG
+    WHERE ID = _id;
+END;$$;

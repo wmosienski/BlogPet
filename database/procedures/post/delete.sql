@@ -1,0 +1,9 @@
+CREATE OR REPLACE PROCEDURE DELETE_POST(
+    _id INT
+)
+LANGUAGE plpgsql    
+AS $$
+BEGIN
+    DELETE FROM POST
+    WHERE ID =_id;
+END;$$;
