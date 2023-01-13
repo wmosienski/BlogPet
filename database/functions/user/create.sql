@@ -1,0 +1,13 @@
+CREATE OR REPLACE FUNCTION CREATE_AUTH_USER(
+    _email CHAR(50),
+    _password TEXT
+) RETURNS INT
+LANGUAGE plpgsql    
+AS $$
+DECLARE res INT;
+BEGIN
+    INSERT INTO AUTH_USER(EMAIL, PASSWORD)
+    VALUES(_email, _password)
+    RETURNING ID INTO res;
+    RETURN res;
+END;$$;

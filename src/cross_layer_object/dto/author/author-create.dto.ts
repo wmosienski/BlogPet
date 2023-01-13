@@ -2,6 +2,9 @@ import { Length, IsString, IsIn, IsNumber } from "class-validator";
 
 export class AuthorCreateDTO {
     @IsNumber()
+    userId: number;
+
+    @IsNumber()
     countryId: number;
 
     @IsString()

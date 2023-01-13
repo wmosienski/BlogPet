@@ -8,6 +8,7 @@ import { AuthorController } from '@Controller/author.controller';
 import { BlogController } from '@Controller/blog.controller';
 import { CountryController } from '@Controller/country.controller';
 import { PostController } from '@Controller/post.controller';
+import { UserController } from '@Controller/user.controller';
 
 const DEFAULT_PORT = 5000;
 
@@ -15,6 +16,7 @@ const DEFAULT_PORT = 5000;
 export class App {
     private readonly _app: Express;
     private readonly _port: number;
+    private readonly _userController: UserController;
     private readonly _blogController: BlogController;
     private readonly _postController: PostController;
     private readonly _authorController: AuthorController;
@@ -22,6 +24,7 @@ export class App {
     private _server: Server;
 
     constructor(
+        @inject(DI_TYPES.UserController) userController: UserController,
         @inject(DI_TYPES.BlogController) blogController: BlogController,
         @inject(DI_TYPES.PostController) postController: PostController,
         @inject(DI_TYPES.AuthorController) authorController: AuthorController,
@@ -29,6 +32,7 @@ export class App {
     ) {
         this._app = express();
         this._port = Number(process.env.PORT) || DEFAULT_PORT;
+        this._userController = userController;
         this._blogController = blogController;
         this._postController = postController;
         this._authorController = authorController;
@@ -41,6 +45,7 @@ export class App {
     }
 
     public useRoutes(): void {
+        this._app.use('/user', this._userController.router);
         this._app.use('/blog', this._blogController.router);
         this._app.use('/post', this._postController.router);
         this._app.use('/author', this._authorController.router);

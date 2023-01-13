@@ -9,6 +9,7 @@ export const mapAuthorCreateDTOToAuthorEntity = (authorCreateDTO: AuthorCreateDT
     authorEntity.lastname = authorCreateDTO.lastname;
     authorEntity.firstname = authorCreateDTO.firstname;
     authorEntity.countryId = authorCreateDTO.countryId;
+    authorEntity.userId = authorCreateDTO.userId;
     return authorEntity;
 }
 
@@ -26,6 +27,7 @@ export const mapAuthorEntityToAuthorDBO = (authorEntity: AuthorEntity): AuthorDB
     authorDBO.lastname = authorEntity.lastname;
     authorDBO.firstname = authorEntity.firstname;
     authorDBO.countryId = authorEntity.countryId;
+    authorDBO.userId = authorEntity.userId;
     return authorDBO;
 }
 
@@ -44,6 +46,7 @@ export const mapAuthorDBOToAuthorEntity = (authorDBO: AuthorDBO): AuthorEntity =
     authorEntity.lastname = authorDBO.lastname;
     authorEntity.firstname = authorDBO.firstname;
     authorEntity.countryId = authorDBO.countryId;
+    authorEntity.userId = authorDBO.userId;
     return authorEntity;
 }
 

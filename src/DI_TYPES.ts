@@ -1,4 +1,8 @@
 export const DI_TYPES = {
+    UserService: Symbol.for('UserService'),
+    UserController: Symbol.for('UserController'),
+    UserRepository: Symbol.for('UserRepository'),
+
     BlogService: Symbol.for('BlogService'),
     BlogController: Symbol.for('BlogController'),
     BlogRepository: Symbol.for('BlogRepository'),

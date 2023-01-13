@@ -20,6 +20,11 @@ import { CountryRepository } from "@Database/pg/country.repository";
 import { AuthorService } from "@Service/author.service";
 import { CountryService } from "@Service/country.service";
 import { setupPG } from "setup.pg";
+import { UserController } from "@Controller/user.controller";
+import { IUserRepository } from "@Database/interfaces/user.repository.interface";
+import { UserRepository } from "@Database/pg/user.repository";
+import { IUserService } from "@Service/interfaces/user.interface";
+import { UserService } from "@Service/user.service";
 
 export interface IBootstrapReturn {
     appContainer: Container;
@@ -27,6 +32,10 @@ export interface IBootstrapReturn {
 }
 
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
+    bind<UserController>(DI_TYPES.UserController).to(UserController).inSingletonScope();
+    bind<IUserService>(DI_TYPES.UserService).to(UserService).inSingletonScope();
+    bind<IUserRepository>(DI_TYPES.UserRepository).to(UserRepository).inSingletonScope();
+
     bind<BlogController>(DI_TYPES.BlogController).to(BlogController).inSingletonScope();
     bind<IBlogService>(DI_TYPES.BlogService).to(BlogService).inSingletonScope();
     bind<IBlogRepository>(DI_TYPES.BlogRepository).to(BlogRepository).inSingletonScope();
