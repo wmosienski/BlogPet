@@ -45,7 +45,7 @@ export class UserController extends BaseController {
             {
                 path: '/dummy',
                 method: 'post',
-                middlewares: [new AuthMiddleware(this._userService)],
+                middlewares: [new AuthMiddleware()],
                 func: this.dummy,
             }
         ])
@@ -72,6 +72,6 @@ export class UserController extends BaseController {
     }
 
     public async dummy(req: Request<{}, {}, {userId: any}>, res: Response): Promise<void> {
-        res.status(HTTPCodes.success.ok).send(`succesfully passed auth middleware. user id: ${req.body.userId}`);
+        res.status(HTTPCodes.success.ok).send(`succesfully passed auth middleware.`);
     }
 }

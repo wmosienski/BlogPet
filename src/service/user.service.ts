@@ -4,13 +4,11 @@ import { UserLoginDTO } from "@DTO/user/user-login.dto";
 import { UserRefreshDTO } from "@DTO/user/user-refresh.dto";
 import { UserRegisterDTO } from "@DTO/user/user-register.dto";
 import { UserEntity } from "@Entity/user.entity";
-import { SomethingWentWrong } from "@Errors/SomethingWentWrong";
 import { Unauthorized } from "@Errors/Unauthorized";
 import { ValueAlreadyInUse } from "@Errors/ValueAlreadyInUse";
 import { mapUserEntityToUserDBO, mapUserRegisterDTOToUserEntity } from "@Mappers/user.mapper";
 import { config } from "@Utils/config/general.config";
 import { compare, generateToken, verifyToken } from "@Utils/crypt";
-import { getTimestampSeconds } from "@Utils/time";
 import { DI_TYPES } from "DI_TYPES";
 import { injectable, inject } from "inversify";
 import { IUserService } from "./interfaces/user.interface";
@@ -54,34 +52,19 @@ export class UserService implements IUserService {
             throw new Unauthorized('wrong email or password');
         }
 
-        const accessToken = await generateToken(userDBO?.id, getTimestampSeconds() + config.refreshTokenExpireTime);
+        const accessToken = await generateToken({userId: userDBO?.id}, config.accessTokenExpireTime);
 
-        const refreshToken = await generateToken(userDBO?.id, getTimestampSeconds() + config.accessTokenExpireTime);
+        const refreshToken = await generateToken({userId: userDBO?.id}, config.refreshTokenExpireTime);
 
         return { accessToken, refreshToken };
     }
 
     async refresh(userRefreshDTO: UserRefreshDTO): Promise<string> {
-        const userId = verifyToken(userRefreshDTO.refreshToken);
+        const tokenData = verifyToken(userRefreshDTO.refreshToken);
 
-        const accessToken = await generateToken(userId, getTimestampSeconds() + config.refreshTokenExpireTime);
+        const accessToken = await generateToken(tokenData, config.accessTokenExpireTime);
 
         return accessToken;
-    }
-
-    public async verifyToken(token: string): Promise<any> {
-        const verifiedToken = await verifyToken(token);
-
-        if (!verifiedToken) {
-            throw new Unauthorized('invalid token');
-        }
-
-        if (verifiedToken.expires < getTimestampSeconds()) {
-            throw new Unauthorized('token expired');
-        }
-
-        return verifiedToken.data;
-
     }
 
 }

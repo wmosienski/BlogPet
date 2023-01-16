@@ -10,6 +10,4 @@ export interface IUserService {
 
     refresh(userRefreshDTO: UserRefreshDTO): Promise<string>;
 
-    verifyToken: (token: string) => Promise<any>;
-
 }
