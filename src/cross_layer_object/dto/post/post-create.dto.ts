@@ -9,7 +9,7 @@ export class PostCreateDTO {
     title: string;
 
     @IsString()
-    @Length(0, 1000)
+    @Length(0, 5000)
     text: string;
 
 

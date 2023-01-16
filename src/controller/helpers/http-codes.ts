@@ -6,7 +6,7 @@ import { isHttpUnauthorized } from "./isHttpUnauthorized";
 export const HTTPCodes = {
 
     informational_response: {
-                     continue: 100,
+                     continue: 500,
     },
 
     success: {

@@ -1,4 +1,8 @@
 export default {
+    user: {
+        update: 'UPDATE_AUTH_USER',
+        delete: 'DELETE_AUTH_USER',
+    },
     author: {
         update: 'UPDATE_AUTHOR',
         delete: 'DELETE_AUTHOR',

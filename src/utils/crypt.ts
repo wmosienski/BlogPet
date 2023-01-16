@@ -1,9 +1,9 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
-export const generateToken = (data: any, expires?: number): string => {
+export const generateToken = (data: any, expiresIn?: number): string => {
     const JWT_SECRET_KEY: string = process.env.JWT_SECRET_KEY || '';
-    return jwt.sign({data, expires}, JWT_SECRET_KEY);
+    return jwt.sign(data, JWT_SECRET_KEY, {expiresIn});
 };
 
 export const verifyToken = (token: string): any => {
@@ -16,6 +16,6 @@ export const hash = async (data: string): Promise<string> => {
     return await bcrypt.hash(data, salt);
 };
 
-export const compare = async (data: string, hash: string): Promise<boolean> => {
-    return await bcrypt.compare(data, hash);
+export const compare = async (data: string, hashedData: string): Promise<boolean> => {
+    return await bcrypt.compare(data, hashedData);
 };

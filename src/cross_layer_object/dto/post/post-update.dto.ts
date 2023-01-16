@@ -11,6 +11,6 @@ export class PostUpdateDTO {
 
     @IsOptional()
     @IsString()
-    @Length(0, 1000)
+    @Length(0, 5000)
     text: string;
 }
