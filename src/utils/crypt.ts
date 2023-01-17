@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 
 export const generateToken = (data: any, expiresIn?: number): string => {
     const JWT_SECRET_KEY: string = process.env.JWT_SECRET_KEY || '';
-    return jwt.sign(data, JWT_SECRET_KEY, {expiresIn});
+    return jwt.sign(data, JWT_SECRET_KEY, expiresIn ? {expiresIn} : undefined);
 };
 
 export const verifyToken = (token: string): any => {

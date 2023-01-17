@@ -1,12 +1,13 @@
 import { isHttpBadRequest } from "./isHttpBadRequest";
 import { isHttpConflict } from "./isHttpConflict";
+import { isHttpForbidden } from "./isHttpForbidden";
 import { isHttpInternalServerError } from "./isHttpInternalServerError";
 import { isHttpUnauthorized } from "./isHttpUnauthorized";
 
 export const HTTPCodes = {
 
     informational_response: {
-                     continue: 500,
+                     continue: 100,
     },
 
     success: {
@@ -35,6 +36,7 @@ export const HTTPCodes = {
 export const getHttpCode = (error: Error): number => {
     return          (isHttpBadRequest(error) && HTTPCodes.client_errors.bad_request) 
         ||            (isHttpConflict(error) && HTTPCodes.client_errors.conflict)
+        ||            (isHttpForbidden(error) && HTTPCodes.client_errors.forbidden)
         ||        (isHttpUnauthorized(error) && HTTPCodes.client_errors.unauthorized)
         || (isHttpInternalServerError(error) && HTTPCodes.server_errors.internal_server_error)
                                              || HTTPCodes.server_errors.internal_server_error;

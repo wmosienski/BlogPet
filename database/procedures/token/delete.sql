@@ -1,0 +1,9 @@
+CREATE OR REPLACE PROCEDURE DELETE_TOKEN(
+    _id INT
+)
+LANGUAGE plpgsql    
+AS $$
+BEGIN
+    DELETE FROM TOKEN
+    WHERE ID = _id;
+END;$$;

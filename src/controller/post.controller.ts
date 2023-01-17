@@ -53,7 +53,7 @@ export class PostController extends BaseController {
         res.status(HTTPCodes.success.created).send({createdId: result});
     }
 
-    public async read(req: Request<{id: string}, {}, {}>, res: Response): Promise<void> {
+    public async read(req: Request<{id: number}, {}, {}>, res: Response): Promise<void> {
         const result = await this._postService.read(Number(req.params.id));
         res.status(HTTPCodes.success.created).send(result);
     }
@@ -63,7 +63,7 @@ export class PostController extends BaseController {
         res.status(HTTPCodes.success.created).send(result);
     }
 
-    public async delete(req: Request<{id: string}, {}, {}>, res: Response): Promise<void> {
+    public async delete(req: Request<{id: number}, {}, {}>, res: Response): Promise<void> {
         const result = await this._postService.delete(Number(req.params.id));
         res.status(HTTPCodes.success.created).send(result);
     }

@@ -4,6 +4,7 @@ import { injectable } from "inversify";
 import { pg } from "./pg";
 import procedures from "./procedures";
 import functions from "./functions";
+import { TokenDBO } from "@DBO/token.dbo";
 
 @injectable()
 export class UserRepository implements IUserRepository {
@@ -32,4 +33,33 @@ export class UserRepository implements IUserRepository {
 
         return userDBOs.length ? userDBOs[0] : null;
     }
+
+    async createToken(userId: number, token: string): Promise<undefined | number> {
+        const result = await pg().func(functions.token.create, [userId, token]);
+
+        return result.length && result[0]?.create_token || undefined;
+    }
+
+    async findTokenByToken(token: string): Promise<TokenDBO | null> {
+        const result = await pg().func(functions.token.findByToken, [token]);
+
+        return result.length ? result[0] : null;
+    }
+
+    async findTokensByUserId(userId: number): Promise<string[] | null> {
+        const tokenObjects = await pg().func(functions.token.findByUserId, [userId]);
+
+        const tokenValues = tokenObjects.map((e: {token: string}) => e.token);
+
+        return tokenValues;
+    }
+
+    async deleteTokenByUserId(userId: number): Promise<void> {
+        await pg().proc(procedures.token.deleteByUserId, [userId]);
+    }
+
+    async deleteTokenByToken(token: string): Promise<void> {
+        await pg().proc(procedures.token.deleteByToken, [token]);
+    }
+
 }

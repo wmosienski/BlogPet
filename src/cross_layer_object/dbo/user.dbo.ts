@@ -1,5 +1,5 @@
 export class UserDBO {
-    id: string;
+    id: number;
     email: string;
     password: string;
 }

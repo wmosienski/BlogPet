@@ -1,0 +1,13 @@
+CREATE OR REPLACE FUNCTION CREATE_TOKEN(
+    _user_id INT,
+    _token TEXT
+) RETURNS INT
+LANGUAGE plpgsql    
+AS $$
+DECLARE res INT;
+BEGIN
+    INSERT INTO TOKEN(AUTH_USER_ID, TOKEN)
+    VALUES(_user_id, _token)
+    RETURNING ID INTO res;
+    RETURN res;
+END;$$;

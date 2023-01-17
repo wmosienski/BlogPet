@@ -1,7 +1,7 @@
 import { hash } from "@Utils/crypt";
 
 export class UserEntity {
-    id: string;
+    id: number;
     email: string;
     password: string;
 

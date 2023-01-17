@@ -1,4 +1,5 @@
 import { UserLoginDTO } from "@DTO/user/user-login.dto";
+import { UserLogoutDTO } from "@DTO/user/user-logout.dto";
 import { UserRegisterDTO } from "@DTO/user/user-register.dto";
 import { IUserService } from "@Service/interfaces/user.interface";
 import { DI_TYPES } from "DI_TYPES";
@@ -8,7 +9,6 @@ import { BaseController } from "./common/base.controller";
 import { CatchError } from "./helpers/catch.error.decorator";
 import { HTTPCodes } from "./helpers/http-codes";
 import 'reflect-metadata';
-import { UserRefreshDTO } from "@DTO/user/user-refresh.dto";
 import { config } from "@Utils/config/general.config";
 import { AuthMiddleware } from "./middlewares/auth.middleware";
 
@@ -37,6 +37,12 @@ export class UserController extends BaseController {
                 func: this.login,
             },
             {
+                path: '/logout',
+                method: 'post',
+                middlewares: [],
+                func: this.logout,
+            },
+            {
                 path: '/refresh',
                 method: 'post',
                 middlewares: [],
@@ -58,17 +64,49 @@ export class UserController extends BaseController {
     }
 
     public async login(req: Request<{}, {}, UserLoginDTO>, res: Response): Promise<void> {
+        const cookies = req.cookies;
+
+        if (cookies?.jwt) {
+            await this._userService.logout(cookies.jwt);
+
+            res.clearCookie('jwt');
+        }
+
         const { accessToken, refreshToken } = await this._userService.login(req.body);
 
-        res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, maxAge: config.refreshTokenExpireTime });
+        res.cookie('jwt', refreshToken, { maxAge: config.refreshTokenExpireTime });
 
         res.status(HTTPCodes.success.ok).send(accessToken);
     }
 
-    public async refresh(req: Request<{}, {}, UserRefreshDTO>, res: Response): Promise<void> {
-        const result = await this._userService.refresh(req.body);
+    public async logout(req: Request<{}, {}, {}>, res: Response): Promise<void> {
+        const cookies = req.cookies;
 
-        res.status(HTTPCodes.success.ok).send(result);
+        if (!cookies?.jwt) {
+            res.status(HTTPCodes.client_errors.unauthorized).send("no jwt cookie");
+
+            return;
+        }
+
+        await this._userService.logout(cookies.jwt);
+
+        res.clearCookie('jwt');
+
+        res.status(HTTPCodes.success.ok).send('logout succesfull');
+    }
+
+    public async refresh(req: Request<{}, {}, {}>, res: Response): Promise<void> {
+        const cookies = req.cookies;
+
+        if (!cookies?.jwt) {
+            res.status(HTTPCodes.client_errors.unauthorized).send("no jwt cookie");
+
+            return;
+        }
+
+        const accessToken = await this._userService.refresh(cookies.jwt);
+
+        res.status(HTTPCodes.success.ok).send(accessToken);
     }
 
     public async dummy(req: Request<{}, {}, {userId: any}>, res: Response): Promise<void> {

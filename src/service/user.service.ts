@@ -1,16 +1,20 @@
 import { IUserRepository } from "@Database/interfaces/user.repository.interface";
+import { TokenDBO } from "@DBO/token.dbo";
 import { UserDBO } from "@DBO/user.dbo";
 import { UserLoginDTO } from "@DTO/user/user-login.dto";
-import { UserRefreshDTO } from "@DTO/user/user-refresh.dto";
+import { UserLogoutDTO } from "@DTO/user/user-logout.dto";
 import { UserRegisterDTO } from "@DTO/user/user-register.dto";
 import { UserEntity } from "@Entity/user.entity";
+import { NoAccess } from "@Errors/NoAccess";
 import { Unauthorized } from "@Errors/Unauthorized";
 import { ValueAlreadyInUse } from "@Errors/ValueAlreadyInUse";
+import { WrongData } from "@Errors/WrongData";
 import { mapUserEntityToUserDBO, mapUserRegisterDTOToUserEntity } from "@Mappers/user.mapper";
 import { config } from "@Utils/config/general.config";
 import { compare, generateToken, verifyToken } from "@Utils/crypt";
 import { DI_TYPES } from "DI_TYPES";
 import { injectable, inject } from "inversify";
+import { TokenExpiredError } from "jsonwebtoken";
 import { IUserService } from "./interfaces/user.interface";
 
 @injectable()
@@ -56,13 +60,34 @@ export class UserService implements IUserService {
 
         const refreshToken = await generateToken({userId: userDBO?.id}, config.refreshTokenExpireTime);
 
+        this._userRepository.createToken(userDBO.id, refreshToken);
+
         return { accessToken, refreshToken };
     }
 
-    async refresh(userRefreshDTO: UserRefreshDTO): Promise<string> {
-        const tokenData = verifyToken(userRefreshDTO.refreshToken);
+    public async logout(refreshToken: string): Promise<void> {
+        await this._userRepository.deleteTokenByToken(refreshToken);
+    }
 
-        const accessToken = await generateToken(tokenData, config.accessTokenExpireTime);
+    async refresh(refreshToken: string): Promise<string> {
+        let tokenData;
+        
+        try {
+            tokenData = verifyToken(refreshToken);
+        } catch(error) {
+            await this._userRepository.deleteTokenByToken(refreshToken);
+            throw new NoAccess('bad token');
+        }
+
+        const foundToken: TokenDBO = await this._userRepository.findTokenByToken(refreshToken);
+
+        if (!foundToken) {
+            await this._userRepository.deleteTokenByUserId(tokenData.userId);
+
+            throw new NoAccess('token resued');
+        }
+
+        const accessToken = await generateToken({userId: foundToken.auth_user_id}, config.accessTokenExpireTime);
 
         return accessToken;
     }

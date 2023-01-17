@@ -1,5 +1,5 @@
 import { UserLoginDTO } from "@DTO/user/user-login.dto";
-import { UserRefreshDTO } from "@DTO/user/user-refresh.dto";
+import { UserLogoutDTO } from "@DTO/user/user-logout.dto";
 import { UserRegisterDTO } from "@DTO/user/user-register.dto";
 
 export interface IUserService {
@@ -8,6 +8,8 @@ export interface IUserService {
 
     login(userLoginDTO: UserLoginDTO): Promise<{accessToken: string, refreshToken: string}>;
 
-    refresh(userRefreshDTO: UserRefreshDTO): Promise<string>;
+    logout(refreshToken: string): Promise<void>;
+
+    refresh(refreshToken: string): Promise<string>;
 
 }
