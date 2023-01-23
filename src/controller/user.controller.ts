@@ -46,7 +46,7 @@ export class UserController extends BaseController {
                 path: '/refresh',
                 method: 'post',
                 middlewares: [],
-                func: this.refresh,
+                func: this.refreshSession,
             },
             {
                 path: '/dummy',
@@ -95,7 +95,7 @@ export class UserController extends BaseController {
         res.status(HTTPCodes.success.ok).send('logout succesfull');
     }
 
-    public async refresh(req: Request<{}, {}, {}>, res: Response): Promise<void> {
+    public async refreshSession(req: Request<{}, {}, {}>, res: Response): Promise<void> {
         const cookies = req.cookies;
 
         if (!cookies?.jwt) {
@@ -104,7 +104,7 @@ export class UserController extends BaseController {
             return;
         }
 
-        const accessToken = await this._userService.refresh(cookies.jwt);
+        const accessToken = await this._userService.refreshSession(cookies.jwt);
 
         res.status(HTTPCodes.success.ok).send(accessToken);
     }

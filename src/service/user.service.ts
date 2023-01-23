@@ -69,7 +69,7 @@ export class UserService implements IUserService {
         await this._userRepository.deleteTokenByValue(refreshToken);
     }
 
-    async refresh(refreshToken: string): Promise<string> {
+    async refreshSession(refreshToken: string): Promise<string> {
         let tokenData;
         
         try {

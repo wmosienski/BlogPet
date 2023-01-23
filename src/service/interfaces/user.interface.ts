@@ -10,6 +10,6 @@ export interface IUserService {
 
     logout(refreshToken: string): Promise<void>;
 
-    refresh(refreshToken: string): Promise<string>;
+    refreshSession(refreshToken: string): Promise<string>;
 
 }
