@@ -66,7 +66,7 @@ export class UserService implements IUserService {
     }
 
     public async logout(refreshToken: string): Promise<void> {
-        await this._userRepository.deleteTokenByToken(refreshToken);
+        await this._userRepository.deleteTokenByValue(refreshToken);
     }
 
     async refresh(refreshToken: string): Promise<string> {
@@ -75,11 +75,11 @@ export class UserService implements IUserService {
         try {
             tokenData = verifyToken(refreshToken);
         } catch(error) {
-            await this._userRepository.deleteTokenByToken(refreshToken);
+            await this._userRepository.deleteTokenByValue(refreshToken);
             throw new NoAccess('bad token');
         }
 
-        const foundToken: TokenDBO = await this._userRepository.findTokenByToken(refreshToken);
+        const foundToken: TokenDBO | null = await this._userRepository.findTokenByValue(refreshToken);
 
         if (!foundToken) {
             await this._userRepository.deleteTokenByUserId(tokenData.userId);

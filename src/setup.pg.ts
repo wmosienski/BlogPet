@@ -42,11 +42,11 @@ export const setupPG = async () => {
         await pg().none(sql('procedures/user/delete.sql'));
 
         await pg().none(sql('procedures/token/delete.sql'));
-        await pg().none(sql('procedures/token/delete_by_token.sql'));
+        await pg().none(sql('procedures/token/delete_by_value.sql'));
         await pg().none(sql('procedures/token/delete_by_user_id.sql'));
         await pg().none(sql('functions/token/create.sql'));
         await pg().none(sql('functions/token/find_by_user_id.sql'));
-        await pg().none(sql('functions/token/find_by_token.sql'));
+        await pg().none(sql('functions/token/find_by_value.sql'));
 
         await pg().none(sql('functions/user/find_by_email.sql'));
 

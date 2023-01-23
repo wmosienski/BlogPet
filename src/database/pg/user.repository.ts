@@ -34,14 +34,14 @@ export class UserRepository implements IUserRepository {
         return userDBOs.length ? userDBOs[0] : null;
     }
 
-    async createToken(userId: number, token: string): Promise<undefined | number> {
-        const result = await pg().func(functions.token.create, [userId, token]);
+    async createToken(userId: number, value: string): Promise<undefined | number> {
+        const result = await pg().func(functions.token.create, [userId, value]);
 
         return result.length && result[0]?.create_token || undefined;
     }
 
-    async findTokenByToken(token: string): Promise<TokenDBO | null> {
-        const result = await pg().func(functions.token.findByToken, [token]);
+    async findTokenByValue(value: string): Promise<TokenDBO | null> {
+        const result = await pg().func(functions.token.findByValue, [value]);
 
         return result.length ? result[0] : null;
     }
@@ -58,8 +58,8 @@ export class UserRepository implements IUserRepository {
         await pg().proc(procedures.token.deleteByUserId, [userId]);
     }
 
-    async deleteTokenByToken(token: string): Promise<void> {
-        await pg().proc(procedures.token.deleteByToken, [token]);
+    async deleteTokenByValue(value: string): Promise<void> {
+        await pg().proc(procedures.token.deleteByValue, [value]);
     }
 
 }

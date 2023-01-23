@@ -7,7 +7,7 @@ export default {
     token: {
         create: 'CREATE_TOKEN',
         findByUserId: 'FIND_BY_USER_ID_TOKEN',
-        findByToken: 'FIND_BY_TOKEN_TOKEN'
+        findByValue: 'FIND_BY_VALUE_TOKEN'
     },
     author: {
         create: 'CREATE_AUTHOR',

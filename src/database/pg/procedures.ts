@@ -6,7 +6,7 @@ export default {
     token: {
         delete: 'DELETE_TOKEN',
         deleteByUserId: 'DELETE_BY_USER_ID_TOKEN',
-        deleteByToken: 'DELETE_BY_TOKEN_TOKEN',
+        deleteByValue: 'DELETE_BY_VALUE_TOKEN',
     },
     author: {
         update: 'UPDATE_AUTHOR',
