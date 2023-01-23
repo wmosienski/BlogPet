@@ -9,6 +9,9 @@ import { BlogController } from '@Controller/blog.controller';
 import { CountryController } from '@Controller/country.controller';
 import { PostController } from '@Controller/post.controller';
 import { UserController } from '@Controller/user.controller';
+import * as WebSocket from 'ws';
+import * as http from 'http';
+import { WebSocketHandler } from 'websocket/websocket.handler';
 
 const DEFAULT_PORT = 5000;
 
@@ -21,7 +24,9 @@ export class App {
     private readonly _postController: PostController;
     private readonly _authorController: AuthorController;
     private readonly _countryController: CountryController;
+    private readonly _webSocketHandler: WebSocketHandler;
     private _server: Server;
+    private _wss: WebSocket.Server;
 
     constructor(
         @inject(DI_TYPES.UserController) userController: UserController,
@@ -29,9 +34,11 @@ export class App {
         @inject(DI_TYPES.PostController) postController: PostController,
         @inject(DI_TYPES.AuthorController) authorController: AuthorController,
         @inject(DI_TYPES.CountryController) countryController: CountryController,
+        @inject(DI_TYPES.WebSocketHandler) webSocketHandler: WebSocketHandler,
     ) {
         this._app = express();
         this._port = Number(process.env.PORT) || DEFAULT_PORT;
+        this._webSocketHandler = webSocketHandler;
         this._userController = userController;
         this._blogController = blogController;
         this._postController = postController;
@@ -55,6 +62,9 @@ export class App {
     public async init(): Promise<void> {
         this.useMiddleware();
         this.useRoutes();
-        this._server = this._app.listen(this._port);
+        this._server = http.createServer(this._app);
+        this._wss = new WebSocket.Server({ server: this._server });
+        this._wss.on('connection', (ws: WebSocket) => this._webSocketHandler.handleOnConnection(ws));
+        this._server.listen(this._port);
     }
 }

@@ -20,4 +20,6 @@ export const DI_TYPES = {
     CountryRepository: Symbol.for('CountryRepository'),
 
     App: Symbol.for('App'),
+
+    WebSocketHandler: Symbol.for('WebSocketHandler'),
 };

@@ -25,6 +25,7 @@ import { IUserRepository } from "@Database/interfaces/user.repository.interface"
 import { UserRepository } from "@Database/pg/user.repository";
 import { IUserService } from "@Service/interfaces/user.interface";
 import { UserService } from "@Service/user.service";
+import { WebSocketHandler } from "websocket/websocket.handler";
 
 export interface IBootstrapReturn {
     appContainer: Container;
@@ -53,6 +54,8 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
     bind<ICountryRepository>(DI_TYPES.CountryRepository).to(CountryRepository).inSingletonScope();
 
     bind<App>(DI_TYPES.App).to(App);
+
+    bind<WebSocketHandler>(DI_TYPES.WebSocketHandler).to(WebSocketHandler).inSingletonScope();
 });
 
 function bootstrap(): IBootstrapReturn {
