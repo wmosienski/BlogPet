@@ -1,4 +1,4 @@
-# Blog Pet - _a pet project to learn TypeScript basics_
+# Blog Pet - _a pet project to enhance proficiency in TypeScript_
 
 _working time - 62.7 hours_
 
