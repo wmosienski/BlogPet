@@ -36,10 +36,5 @@ export class ChatWSController extends BaseWSController {
         chatUser.ws = ws;
         this._chatService.handleOnConnection(chatUser);
         ws.send('id: ' + chatUser.id);
-        // ws.on('message', (msg: String) => {
-        //     console.log('siema')
-        //     ws.send('dupp' + msg);
-        // });
-        
     }
 }
