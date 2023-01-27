@@ -11,22 +11,25 @@ import { PostController } from '@Controller/post.controller';
 import { UserController } from '@Controller/user.controller';
 import * as WebSocket from 'ws';
 import * as http from 'http';
-import { WebSocketHandler } from 'websocket/websocket.handler';
+import stream from 'stream';
+import expressWs from 'express-ws';
+import { ChatWSController } from '@Controller/websocket/chat.ws.controller';
+import { ChatController } from '@Controller/chat.controller';
+const { app, getWss, applyTo } = expressWs(express());
 
 const DEFAULT_PORT = 5000;
 
 @injectable()
 export class App {
-    private readonly _app: Express;
+    private readonly _app: expressWs.Application;
     private readonly _port: number;
     private readonly _userController: UserController;
     private readonly _blogController: BlogController;
     private readonly _postController: PostController;
     private readonly _authorController: AuthorController;
     private readonly _countryController: CountryController;
-    private readonly _webSocketHandler: WebSocketHandler;
-    private _server: Server;
-    private _wss: WebSocket.Server;
+    private readonly _chatController: ChatController;
+    private readonly _chatWSController: ChatWSController;
 
     constructor(
         @inject(DI_TYPES.UserController) userController: UserController,
@@ -34,16 +37,18 @@ export class App {
         @inject(DI_TYPES.PostController) postController: PostController,
         @inject(DI_TYPES.AuthorController) authorController: AuthorController,
         @inject(DI_TYPES.CountryController) countryController: CountryController,
-        @inject(DI_TYPES.WebSocketHandler) webSocketHandler: WebSocketHandler,
+        @inject(DI_TYPES.ChatController) chatController: ChatController,
+        @inject(DI_TYPES.ChatWSController) chatWSController: ChatWSController,
     ) {
-        this._app = express();
+        this._app = app;
         this._port = Number(process.env.PORT) || DEFAULT_PORT;
-        this._webSocketHandler = webSocketHandler;
         this._userController = userController;
         this._blogController = blogController;
         this._postController = postController;
         this._authorController = authorController;
         this._countryController = countryController;
+        this._chatController = chatController;
+        this._chatWSController = chatWSController;
     }
 
     public useMiddleware(): void {
@@ -57,14 +62,13 @@ export class App {
         this._app.use('/post', this._postController.router);
         this._app.use('/author', this._authorController.router);
         this._app.use('/country', this._countryController.router);
+        this._app.use('/chat', this._chatController.router);
+        this._app.use('/chatWS', this._chatWSController.router);
     }
 
     public async init(): Promise<void> {
         this.useMiddleware();
         this.useRoutes();
-        this._server = http.createServer(this._app);
-        this._wss = new WebSocket.Server({ server: this._server });
-        this._wss.on('connection', (ws: WebSocket) => this._webSocketHandler.handleOnConnection(ws));
-        this._server.listen(this._port);
+        this._app.listen(this._port);
     }
 }
