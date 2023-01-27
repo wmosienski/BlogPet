@@ -8,7 +8,7 @@ export class WebSocketUser implements BaseChatUser {
         this.ws.on('message', handler);
     }
 
-    send(message: string): void {
-        this.ws.send(message);
+    send(fromId: string, message: string): void {
+        this.ws.send(`[user ${fromId}]: ${message}`);
     }
 }

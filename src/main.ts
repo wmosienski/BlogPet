@@ -26,10 +26,10 @@ import { UserRepository } from "@Database/pg/user.repository";
 import { IUserService } from "@Service/interfaces/user.interface";
 import { UserService } from "@Service/user.service";
 import { ChatWSController } from "@Controller/websocket/chat.ws.controller";
-import { ChatService } from "@Service/websocket/chat.service";
 import { WebSocketUser } from "@Controller/websocket/websocket.chatuser";
 import { IChatService } from "@Service/interfaces/chat.interface";
 import { ChatController } from "@Controller/chat.controller";
+import { ChatService } from "@Service/chat/chat.service";
 
 export interface IBootstrapReturn {
     appContainer: Container;

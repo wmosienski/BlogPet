@@ -4,6 +4,6 @@ abstract class BaseChatUser {
 
     abstract setReceiveHandler(handler: Function): void;
 
-    abstract send(message: string): void;
+    abstract send(fromId: string, message: string): void;
     
 }
