@@ -8,8 +8,7 @@ import 'reflect-metadata';
 import { BaseWSController } from "../common/base.ws.controller";
 import * as ws from 'ws';
 import { AuthWSMiddleware } from "../middlewares/auth.ws.middleware";
-import { IChatService } from "@Service/interfaces/chat.interface";
-import { ChatService } from "@Service/websocket/chat.service";
+import { ChatService } from "@Service/chat/chat.service";
 import { WebSocketUser } from "./websocket.chatuser";
 
 @CatchError(['constructor', 'bindRouters'])
