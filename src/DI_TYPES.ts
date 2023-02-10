@@ -19,5 +19,11 @@ export const DI_TYPES = {
     CountryController: Symbol.for('CountryController'),
     CountryRepository: Symbol.for('CountryRepository'),
 
+    ChatController: Symbol.for('ChatController'),
+    ChatWSController: Symbol.for('ChatWSController'),
+    ChatService: Symbol.for('ChatService'),
+
     App: Symbol.for('App'),
+
+    WebSocketHandler: Symbol.for('WebSocketHandler'),
 };

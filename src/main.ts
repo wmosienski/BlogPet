@@ -25,6 +25,11 @@ import { IUserRepository } from "@Database/interfaces/user.repository.interface"
 import { UserRepository } from "@Database/pg/user.repository";
 import { IUserService } from "@Service/interfaces/user.interface";
 import { UserService } from "@Service/user.service";
+import { ChatWSController } from "@Controller/websocket/chat.ws.controller";
+import { WebSocketUser } from "@Controller/websocket/websocket.chatuser";
+import { IChatService } from "@Service/interfaces/chat.interface";
+import { ChatController } from "@Controller/chat.controller";
+import { ChatService } from "@Service/chat/chat.service";
 
 export interface IBootstrapReturn {
     appContainer: Container;
@@ -52,7 +57,12 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
     bind<ICountryService>(DI_TYPES.CountryService).to(CountryService).inSingletonScope();
     bind<ICountryRepository>(DI_TYPES.CountryRepository).to(CountryRepository).inSingletonScope();
 
+    bind<ChatController>(DI_TYPES.ChatController).to(ChatController).inSingletonScope();
+    bind<ChatWSController>(DI_TYPES.ChatWSController).to(ChatWSController).inSingletonScope();
+    bind<IChatService>(DI_TYPES.ChatService).to(ChatService<WebSocketUser>).inSingletonScope();
+
     bind<App>(DI_TYPES.App).to(App);
+
 });
 
 function bootstrap(): IBootstrapReturn {
