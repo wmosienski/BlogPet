@@ -4,6 +4,11 @@ export default {
         read: 'READ_AUTH_USER',
         findByEmail: 'FIND_BY_EMAIL_AUTH_USER'
     },
+    token: {
+        create: 'CREATE_TOKEN',
+        findByUserId: 'FIND_BY_USER_ID_TOKEN',
+        findByValue: 'FIND_BY_VALUE_TOKEN'
+    },
     author: {
         create: 'CREATE_AUTHOR',
         read: 'READ_AUTHOR',

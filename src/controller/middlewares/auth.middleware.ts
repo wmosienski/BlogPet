@@ -12,6 +12,7 @@ export class AuthMiddleware implements IMiddleware {
             const token = req.header('authorization') || '';
             try {
                 verifyToken(token);
+
             } catch (err) {
                 next(err);
             }

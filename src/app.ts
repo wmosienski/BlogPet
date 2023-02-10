@@ -10,6 +10,8 @@ import { CountryController } from '@Controller/country.controller';
 import { PostController } from '@Controller/post.controller';
 import { UserController } from '@Controller/user.controller';
 
+const cookieParser = require('cookie-parser');
+
 const DEFAULT_PORT = 5000;
 
 @injectable()
@@ -41,6 +43,7 @@ export class App {
 
     public useMiddleware(): void {
         this._app.use(bodyParser.urlencoded({ extended: false }))
+        this._app.use(cookieParser());
         this._app.use(bodyParser.json());
     }
 

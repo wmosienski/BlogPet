@@ -3,6 +3,11 @@ export default {
         update: 'UPDATE_AUTH_USER',
         delete: 'DELETE_AUTH_USER',
     },
+    token: {
+        delete: 'DELETE_TOKEN',
+        deleteByUserId: 'DELETE_BY_USER_ID_TOKEN',
+        deleteByValue: 'DELETE_BY_VALUE_TOKEN',
+    },
     author: {
         update: 'UPDATE_AUTHOR',
         delete: 'DELETE_AUTHOR',

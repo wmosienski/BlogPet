@@ -11,6 +11,7 @@ export const setupPG = async () => {
     try {
         await pg().none(sql('tables/country.table.sql'));
         await pg().none(sql('tables/user.table.sql'));
+        await pg().none(sql('tables/token.table.sql'));
         await pg().none(sql('tables/author.table.sql'));
         await pg().none(sql('tables/blog.table.sql'));
         await pg().none(sql('tables/post.table.sql'));
@@ -39,6 +40,13 @@ export const setupPG = async () => {
         await pg().none(sql('procedures/blog/delete.sql'));
         await pg().none(sql('procedures/post/delete.sql'));
         await pg().none(sql('procedures/user/delete.sql'));
+
+        await pg().none(sql('procedures/token/delete.sql'));
+        await pg().none(sql('procedures/token/delete_by_value.sql'));
+        await pg().none(sql('procedures/token/delete_by_user_id.sql'));
+        await pg().none(sql('functions/token/create.sql'));
+        await pg().none(sql('functions/token/find_by_user_id.sql'));
+        await pg().none(sql('functions/token/find_by_value.sql'));
 
         await pg().none(sql('functions/user/find_by_email.sql'));
 
